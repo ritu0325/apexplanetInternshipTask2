@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Student Registration Form</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+      color: #333;
+    }
+    .form-container {
+      background: rgba(255, 255, 255, 0.95);
+      border-radius: 16px;
+      box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+      max-width: 600px;
+      width: 100%;
+      padding: 2.5rem;
+      animation: fadeIn 0.5s ease-in-out;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    h1 {
+      margin-top: 0;
+      margin-bottom: 0.25rem;
+      font-size: 2rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      text-align: center;
+    }
+    p.subtitle {
+      margin-top: 0;
+      margin-bottom: 2rem;
+      color: #6b7280;
+      text-align: center;
+      font-size: 1rem;
+    }
+    form {
+      width: 100%;
+    }
+    .form-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .form-group {
+      flex: 1;
+      min-width: 200px;
+      margin-bottom: 1.5rem;
+    }
+    label {
+      display: block;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      font-size: 0.875rem;
+      color: #374151;
+    }
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    input[type="date"],
+    input[type="number"],
+    select,
+    textarea {
+      width: 100%;
+      padding: 0.875rem 1rem;
+      border: 2px solid #e5e7eb;
+      border-radius: 10px;
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      background: #f8f9fa;
+      font-family: inherit;
+      resize: vertical;
+    }
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    input[type="date"]:focus,
+    input[type="number"]:focus,
+    select:focus,
+    textarea:focus {
+      outline: none;
+      border-color: #e94560;
+      box-shadow: 0 0 0 4px rgba(233, 69, 96, 0.1);
+      background: white;
+    }
+    input[type="text"]:hover,
+    input[type="email"]:hover,
+    input[type="tel"]:hover,
+    input[type="date"]:hover,
+    input[type="number"]:hover,
+    select:hover,
+    textarea:hover {
+      border-color: #d1d5db;
+    }
+    .checkbox-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .checkbox-group input[type="checkbox"] {
+      margin-right: 0.5rem;
+      width: 1.25rem;
+      height: 1.25rem;
+      accent-color: #e94560;
+      cursor: pointer;
+    }
+    .checkbox-group label {
+      font-size: 0.9rem;
+      color: #6b7280;
+      cursor: pointer;
+    }
+    button[type="submit"] {
+      width: 100%;
+      background: linear-gradient(135deg, #e94560 0%, #16213e 100%);
+      color: white;
+      padding: 1rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      position: relative;
+      overflow: hidden;
+    }
+    button[type="submit"]:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 15px 30px rgba(233, 69, 96, 0.3);
+    }
+    button[type="submit"]:active {
+      transform: translateY(0);
+    }
+    button[type="submit"]::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      transition: left 0.5s;
+      border-radius: 12px;
+    }
+    button[type="submit"]:hover::before {
+      left: 100%;
+    }
+    .success-message {
+      display: none;
+      background: linear-gradient(135deg, #10b981 0%, #059669 100%);
+      color: white;
+      padding: 1.5rem;
+      border-radius: 10px;
+      margin-top: 1.5rem;
+      text-align: center;
+      animation: slideDown 0.3s ease-in-out;
+      font-weight: 600;
+    }
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    .error-message {
+      color: #ef4444;
+      font-size: 0.75rem;
+      margin-top: 0.25rem;
+      font-weight: 500;
+      min-height: 1.2em; /* reserve space to avoid layout shift */
+    }
+    @media (max-width: 640px) {
+      .form-row {
+        flex-direction: column;
+      }
+      .form-group {
+        min-width: 100%;
+      }
+      h1 {
+        font-size: 1.75rem;
+      }
+      .form-container {
+        padding: 1.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="form-container" role="main">
+    <h1>Student Registration Portal</h1>
+    <p class="subtitle">Provide your information to join our academic community</p>
+    <form id="studentForm" novalidate>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="firstName">First Name *</label>
+          <input type="text" id="firstName" name="firstName" aria-describedby="firstNameError" />
+          <div id="firstNameError" class="error-message" aria-live="polite"></div>
+        </div>
+        <div class="form-group">
+          <label for="lastName">Last Name *</label>
+          <input type="text" id="lastName" name="lastName" aria-describedby="lastNameError" />
+          <div id="lastNameError" class="error-message" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="email">Email Address *</label>
+        <input type="email" id="email" name="email" aria-describedby="emailError" />
+        <div id="emailError" class="error-message" aria-live="polite"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="phone">Phone Number *</label>
+          <input type="tel" id="phone" name="phone" aria-describedby="phoneError" />
+          <div id="phoneError" class="error-message" aria-live="polite"></div>
+        </div>
+        <div class="form-group">
+          <label for="dob">Date of Birth *</label>
+          <input type="date" id="dob" name="dob" aria-describedby="dobError" />
+          <div id="dobError" class="error-message" aria-live="polite"></div>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="major">Major/Field of Study *</label>
+        <input type="text" id="major" name="major" aria-describedby="majorError" />
+        <div id="majorError" class="error-message" aria-live="polite"></div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="year">Year of Study *</label>
+          <select id="year" name="year" aria-describedby="yearError">
+            <option value="">Select Year</option>
+            <option value="freshman">Freshman</option>
+            <option value="sophomore">Sophomore</option>
+            <option value="junior">Junior</option>
+            <option value="senior">Senior</option>
+            <option value="graduate">Graduate</option>
+            <option value="postgraduate">Postgraduate</option>
+          </select>
+          <div id="yearError" class="error-message" aria-live="polite"></div>
+        </div>
+        <div class="form-group">
+          <label for="gpa">GPA (0 - 4)</label>
+          <input type="number" id="gpa" name="gpa" step="0.01" min="0" max="4" placeholder="4.0" aria-describedby="gpaError" />
+          <div id="gpaError" class="error-message" aria-live="polite"></div>
+        </div>
+      </div>
+      <fieldset class="form-group" style="margin-bottom:1.5rem;">
+        <legend style="font-weight:600; margin-bottom:0.5rem; font-size:0.875rem; color:#374151;">Interests (Select all that apply)</legend>
+        <div class="checkbox-group">
+          <input type="checkbox" id="interest1" name="interests" value="technology" />
+          <label for="interest1">Technology</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="interest2" name="interests" value="sports" />
+          <label for="interest2">Sports</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="interest3" name="interests" value="arts" />
+          <label for="interest3">Arts</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="interest4" name="interests" value="science" />
+          <label for="interest4">Science</label>
+        </div>
+        <div class="checkbox-group">
+          <input type="checkbox" id="interest5" name="interests" value="other" />
+          <label for="interest5">Other</label>
+        </div>
+      </fieldset>
+      <div class="form-group">
+        <label for="message">Tell us about yourself *</label>
+        <textarea id="message" name="message" rows="4" aria-describedby="messageError"></textarea>
+        <div id="messageError" class="error-message" aria-live="polite"></div>
+      </div>
+      <button type="submit">Register Now</button>
+    </form>
+    <div id="successMessage" class="success-message" role="alert" aria-live="assertive">
+      <strong>Registration Successful!</strong><br />
+      Welcome to the community. Check your email for next steps.
+    </div>
+  </div>
+
+  <script>
+    (function () {
+      const form = document.getElementById('studentForm');
+      const successMessage = document.getElementById('successMessage');
+
+      const errorElements = {
+        firstName: document.getElementById('firstNameError'),
+        lastName: document.getElementById('lastNameError'),
+        email: document.getElementById('emailError'),
+        phone: document.getElementById('phoneError'),
+        dob: document.getElementById('dobError'),
+        major: document.getElementById('majorError'),
+        year: document.getElementById('yearError'),
+        gpa: document.getElementById('gpaError'),
+        message: document.getElementById('messageError'),
+      };
+
+      function clearErrors() {
+        Object.values(errorElements).forEach((el) => (el.textContent = ''));
+      }
+
+      function validateField(field, value, regex, errorMsg) {
+        if (!value.trim() || !regex.test(value)) {
+          errorElements[field].textContent = errorMsg;
+          return false;
+        }
+        return true;
+      }
+
+      function validatePhone(phone) {
+        const phoneRegex = /^\+?[\d\s\-\(\)]{10,}$/;
+        return validateField(
+          'phone',
+          phone,
+          phoneRegex,
+          'Please enter a valid phone number.'
+        );
+      }
+
+      function validateEmail(email) {
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return validateField(
+          'email',
+          email,
+          emailRegex,
+          'Please enter a valid email address.'
+        );
+      }
+
+      function validateName(name, field) {
+        const nameRegex = /^[a-zA-Z\s]{2,}$/;
+        if (!name.trim() || !nameRegex.test(name)) {
+          errorElements[field].textContent =
+            'Please enter a valid name with at least 2 characters.';
+          return false;
+        }
+        return true;
+      }
+
+      function validateMajor(major) {
+        const majorRegex = /^[a-zA-Z\s]{2,}$/;
+        return validateField(
+          'major',
+          major,
+          majorRegex,
+          'Please enter your major/field of study.'
+        );
+      }
+
+      function validateYear(year) {
+        if (!year) {
+          errorElements.year.textContent = 'Please select your year of study.';
+          return false;
+        }
+        return true;
+      }
+
+      function validateMessage(message) {
+        if (!message.trim() || message.trim().length < 20) {
+          errorElements.message.textContent =
+            'Please provide a message with at least 20 characters.';
+          return false;
+        }
+        return true;
+      }
+
+      function validateDOB(dob) {
+        if (!dob) {
+          errorElements.dob.textContent = 'Please select your date of birth.';
+          return false;
+        }
+        const today = new Date();
+        const birthDate = new Date(dob);
+        const age = today.getFullYear() - birthDate.getFullYear();
+        if (age < 16 || age > 100) {
+          errorElements.dob.textContent =
+            'Please enter a valid date of birth (age 16-100).';
+          return false;
+        }
+        return true;
+      }
+
+      function validateGPA(gpa) {
+        if (!gpa) return true; // optional field
+        const gpaNum = parseFloat(gpa);
+        if (isNaN(gpaNum) || gpaNum < 0 || gpaNum > 4) {
+          errorElements.gpa.textContent =
+            'Please enter a valid GPA between 0 and 4.';
+          return false;
+        }
+        return true;
+      }
+
+      form.addEventListener('submit', function (e) {
+        e.preventDefault();
+        clearErrors();
+        successMessage.style.display = 'none';
+
+        const formData = new FormData(form);
+        const firstName = formData.get('firstName') || '';
+        const lastName = formData.get('lastName') || '';
+        const email = formData.get('email') || '';
+        const phone = formData.get('phone') || '';
+        const dob = formData.get('dob') || '';
+        const major = formData.get('major') || '';
+        const year = formData.get('year') || '';
+        const gpa = formData.get('gpa') || '';
+        const message = formData.get('message') || '';
+
+        let isValid = true;
+        isValid &= validateName(firstName, 'firstName');
+        isValid &= validateName(lastName, 'lastName');
+        isValid &= validateEmail(email);
+        isValid &= validatePhone(phone);
+        isValid &= validateDOB(dob);
+        isValid &= validateMajor(major);
+        isValid &= validateYear(year);
+        isValid &= validateGPA(gpa);
+        isValid &= validateMessage(message);
+
+        if (isValid) {
+          // You can handle form submission here (e.g., send data to server)
+          console.log('Student Registration:', {
+            firstName,
+            lastName,
+            email,
+            phone,
+            dob,
+            major,
+            year,
+            gpa,
+            message,
+          });
+
+          successMessage.style.display = 'block';
+          form.reset();
+        }
+      });
+    })();
+  </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>To-do-List</title>
+  <link rel="icon" href="./assests/list.png.svg"> 
+
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"
+  />
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <!--  To-Do App -->
+  <div class="container">
+    <header class="stats-container">
+      <div class="details">
+        <h1>✨ ToDo App</h1>
+        <p class="subtitle">Stay productive, one task at a time 🚀</p>
+        <div id="progressbar">
+          <div id="progress"></div>
+        </div>
+      </div>
+      <div class="stats-numbers">
+        <p id="numbers">0/0</p>
+      </div>
+    </header>
+
+    <!-- Theme Toggle Button -->
+    <button id="themeToggle">
+      <i class="fas fa-moon"></i>
+    </button>
+
+    <form>
+      <input id="taskInput" placeholder=" Write your task here..." />
+      <button id="newTask" type="submit">
+        <i class="fas fa-plus"></i>
+      </button>
+    </form>
+
+    <ul id="taskList"></ul>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.5.1/dist/confetti.browser.min.js"></script>
+  <script src="app.js"></script>
+
+  <!-- Theme Toggle Script -->
+  <script>
+    const toggleBtn = document.getElementById("themeToggle");
+    const body = document.body;
+
+    toggleBtn.addEventListener("click", () => {
+      body.classList.toggle("light-theme");
+      const icon = toggleBtn.querySelector("i");
+      if (body.classList.contains("light-theme")) {
+        icon.classList.replace("fa-moon", "fa-sun");
+      } else {
+        icon.classList.replace("fa-sun", "fa-moon");
+      }
+    });
+  </script>
+</body>
+</html>
